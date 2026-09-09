@@ -8,10 +8,15 @@
 import SwiftUI
 
 @main
-struct MapStoryApp: App {
+struct MapStoryAppApp: App {
+
     var body: some Scene {
+
         WindowGroup {
-            ContentView()
+
+            NavigationStack {
+                MainStateView()
+            }
         }
     }
 }

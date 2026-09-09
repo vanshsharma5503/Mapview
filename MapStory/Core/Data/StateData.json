@@ -1,0 +1,26 @@
+[
+  {
+    "id": "punjab",
+    "name": "Punjab",
+    "imageName": "punjab",
+
+    "tagline": "The Land of Five Rivers",
+
+    "flora": {
+      "stateFlower": "Sword Lily",
+      "stateTree": "Shisham",
+      "majorCrops": [
+        "Wheat",
+        "Rice",
+        "Cotton",
+        "Sugarcane"
+      ]
+    },
+
+    "fauna": {
+      "stateAnimal": "Blackbuck",
+      "stateBird": "Northern Goshawk"
+    }
+  },
+]
+
