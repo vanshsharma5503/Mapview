@@ -2,7 +2,7 @@
   {
     "id": "punjab",
     "name": "Punjab",
-    "imageName": "punjab",
+    "imageName": "pb",
 
     "tagline": "The Land of Five Rivers",
 
@@ -20,6 +20,66 @@
     "fauna": {
       "stateAnimal": "Blackbuck",
       "stateBird": "Northern Goshawk"
+    }
+  },
+  {
+    "id": "andhra-pradesh",
+    "name": "Andhra Pradesh",
+    "imageName": "ap",
+    "tagline": "The Essence of Incredible India",
+    "flora": {
+      "stateFlower": "Jasmine",
+      "stateTree": "Neem",
+      "majorCrops": [
+        "Rice",
+        "Chilli",
+        "Cotton",
+        "Sugarcane"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Blackbuck",
+      "stateBird": "Rose-ringed Parakeet"
+    }
+  },
+  {
+    "id": "maharashtra",
+    "name": "Maharashtra",
+    "imageName": "mh",
+    "tagline": "The Great Land of the Marathas",
+    "flora": {
+      "stateFlower": "Jarul",
+      "stateTree": "Mango",
+      "majorCrops": [
+        "Sugarcane",
+        "Cotton",
+        "Soybean",
+        "Rice"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Indian Giant Squirrel",
+      "stateBird": "Yellow-footed Green Pigeon"
+    }
+  },
+  {
+    "id": "arunachal-pradesh",
+    "name": "Arunachal Pradesh",
+    "imageName": "ar",
+    "tagline": "The Land of the Dawn-Lit Mountains",
+    "flora": {
+      "stateFlower": "Foxtail Orchid",
+      "stateTree": "Hollong",
+      "majorCrops": [
+        "Rice",
+        "Maize",
+        "Millet",
+        "Ginger"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Mithun",
+      "stateBird": "Great Hornbill"
     }
   },
 ]

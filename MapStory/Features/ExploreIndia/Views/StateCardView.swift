@@ -1,61 +1,113 @@
+
 //
 //  StateCardView.swift
 //  MapStory
 //
 //  Created by Vansh Sharma on 30/08/26.
 //
+
 import SwiftUI
 
 struct StateCardView: View {
 
     let state: IndianState
 
+    // ============================================================
+    // MARK: - COLORS
+    // ============================================================
+
+    private let cream = Color(
+        red: 0.975,
+        green: 0.945,
+        blue: 0.870
+    )
+
+    private let darkBrown = Color(
+        red: 0.20,
+        green: 0.14,
+        blue: 0.09
+    )
+
+    private let mustard = Color(
+        red: 0.82,
+        green: 0.56,
+        blue: 0.16
+    )
+
+    private let terracotta = Color(
+        red: 0.90,
+        green: 0.31,
+        blue: 0.12
+    )
+
+    // ============================================================
+    // MARK: - LAYOUT
+    // ============================================================
+
+    private let imageHeight: CGFloat = 150
+
+    // ============================================================
+    // MARK: - BODY
+    // ============================================================
+
     var body: some View {
 
-        HStack(spacing: 14) {
+        VStack(
+            spacing: 0
+        ) {
 
-            // MARK: - State Artwork
+            // ======================================================
+            // IMAGE SECTION
+            // ======================================================
 
-            ZStack {
-
-                RoundedRectangle(
-                    cornerRadius: 20,
-                    style: .continuous
-                )
-                .fill(Color.white.opacity(0.45))
-
-                Image(state.imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(
-                        maxWidth: .infinity,
-                        maxHeight: .infinity
-                    )
-                    .padding(3)
-            }
-            .frame(
-                width: 140,
-                height: 170
-            )
-            .clipShape(
-                RoundedRectangle(
-                    cornerRadius: 20,
-                    style: .continuous
-                )
-            )
-
-            // MARK: - State Information
-
-            VStack(
-                alignment: .leading,
-                spacing: 8
+            ZStack(
+                alignment: .bottomLeading
             ) {
 
-                Text(state.name)
+                GeometryReader { geo in
+
+                    Image(
+                        state.imageName
+                    )
+                    .resizable()
+                    .scaledToFill()
+                    .frame(
+                        width: geo.size.width,
+                        height: geo.size.height
+                    )
+                    .clipped()
+                }
+
+                // ==================================================
+                // STATE NAME
+                // ==================================================
+
+                VStack(
+                    alignment: .leading,
+                    spacing: 2
+                ) {
+
+                    Text(
+                        state.name
+                    )
                     .font(
                         .system(
-                            size: 25,
+                            size: 26,
                             weight: .black,
+                            design: .rounded
+                        )
+                    )
+                    .foregroundStyle(
+                        .black
+                    )
+
+                    Text(
+                        state.tagline
+                    )
+                    .font(
+                        .system(
+                            size: 12,
+                            weight: .semibold,
                             design: .rounded
                         )
                     )
@@ -63,119 +115,173 @@ struct StateCardView: View {
                         Color.black.opacity(0.88)
                     )
                     .lineLimit(1)
+                }
+                .padding(
+                    .horizontal,
+                    16
+                )
+                .padding(
+                    .vertical,
+                    10
+                )
+                .glassEffect(
+                    .regular.tint(
+                        Color.white.opacity(0.6)
+                    ),
+                    in: .rect(
+                        cornerRadius: 16
+                    )
+                )
+                .padding(10)
+                .offset(
+                    x: -15,
+                    y: 20
+                )
+            }
+            .frame(
+                height: imageHeight
+            )
+            .clipShape(
+                RoundedRectangle(
+                    cornerRadius: 20,
+                    style: .continuous
+                )
+            )
+            .padding(8)
 
-                Text(state.tagline)
+            // ======================================================
+            // INFO SECTION
+            // ======================================================
+
+            HStack(
+                spacing: 0
+            ) {
+
+                // ==================================================
+                // NATURE TAGS
+                // ==================================================
+
+                HStack(
+                    spacing: 8
+                ) {
+
+                    natureChip(
+                        icon: "leaf.fill",
+                        category: "Flora",
+                        label:
+                            state.flora.stateFlower,
+                        color: Color(
+                            red: 0.90,
+                            green: 0.22,
+                            blue: 0.40
+                        )
+                    )
+
+                    natureChip(
+                        icon: "pawprint.fill",
+                        category: "Fauna",
+                        label:
+                            state.fauna.stateAnimal,
+                        color: Color(
+                            red: 0.94,
+                            green: 0.48,
+                            blue: 0.10
+                        )
+                    )
+                }
+
+                Spacer(
+                    minLength: 8
+                )
+
+                // ==================================================
+                // NAVIGATION ARROW
+                // ==================================================
+                //
+                // IMPORTANT:
+                //
+                // This is ONLY a visual indicator.
+                //
+                // The NavigationLink is in MainStateView.
+                //
+                // Therefore this arrow cannot navigate to a
+                // hard-coded state.
+                //
+                // ==================================================
+
+                ZStack {
+
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    terracotta,
+                                    Color(
+                                        red: 0.94,
+                                        green: 0.38,
+                                        blue: 0.12
+                                    )
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(
+                            width: 38,
+                            height: 38
+                        )
+                        .shadow(
+                            color:
+                                terracotta.opacity(
+                                    0.28
+                                ),
+                            radius: 6,
+                            y: 3
+                        )
+
+                    Image(
+                        systemName:
+                            "arrow.right"
+                    )
                     .font(
                         .system(
                             size: 14,
-                            weight: .medium,
-                            design: .rounded
-                        )
-                    )
-                    .foregroundStyle(
-                        Color.black.opacity(0.52)
-                    )
-                    .lineLimit(2)
-
-                Spacer(minLength: 4)
-
-                // Flower
-
-                HStack(spacing: 8) {
-
-                    Image(systemName: "camera.macro")
-                        .font(
-                            .system(
-                                size: 17,
-                                weight: .bold
-                            )
-                        )
-                        .foregroundStyle(.pink)
-
-                    Text(state.flora.stateFlower)
-                        .font(
-                            .system(
-                                size: 13,
-                                weight: .semibold,
-                                design: .rounded
-                            )
-                        )
-                        .foregroundStyle(
-                            Color.black.opacity(0.78)
-                        )
-                        .lineLimit(1)
-                }
-
-                // Animal
-
-                HStack(spacing: 8) {
-
-                    Image(systemName: "pawprint.fill")
-                        .font(
-                            .system(
-                                size: 16,
-                                weight: .bold
-                            )
-                        )
-                        .foregroundStyle(.orange)
-
-                    Text(state.fauna.stateAnimal)
-                        .font(
-                            .system(
-                                size: 13,
-                                weight: .semibold,
-                                design: .rounded
-                            )
-                        )
-                        .foregroundStyle(
-                            Color.black.opacity(0.78)
-                        )
-                        .lineLimit(1)
-                }
-            }
-
-            Spacer(minLength: 2)
-
-            // MARK: - Arrow
-
-            ZStack {
-
-                Circle()
-                    .fill(
-                        Color.orange
-                    )
-                    .frame(
-                        width: 43,
-                        height: 43
-                    )
-
-                Image(systemName: "chevron.right")
-                    .font(
-                        .system(
-                            size: 15,
                             weight: .bold
                         )
                     )
-                    .foregroundStyle(.white)
+                    .foregroundStyle(
+                        .white
+                    )
+                }
+                .accessibilityHidden(
+                    true
+                )
             }
+            .padding(
+                .horizontal,
+                16
+            )
+            .padding(
+                .top,
+                4
+            )
+            .padding(
+                .bottom,
+                14
+            )
         }
-        .padding(10)
-        .frame(
-            maxWidth: .infinity,
-            minHeight: 190,
-            maxHeight: 190
-        )
+
+        // ==========================================================
+        // CARD BACKGROUND
+        // ==========================================================
+
         .background(
+            cream
+        )
+        .clipShape(
             RoundedRectangle(
                 cornerRadius: 28,
                 style: .continuous
-            )
-            .fill(
-                Color(
-                    red: 0.965,
-                    green: 0.935,
-                    blue: 0.855
-                )
             )
         )
         .overlay(
@@ -184,49 +290,167 @@ struct StateCardView: View {
                 style: .continuous
             )
             .stroke(
-                Color.white.opacity(0.65),
-                lineWidth: 1
+                Color.white.opacity(0.60),
+                lineWidth: 1.2
             )
         )
         .shadow(
-            color: .black.opacity(0.09),
-            radius: 9,
+            color:
+                Color.black.opacity(0.08),
+            radius: 16,
             x: 0,
-            y: 5
+            y: 8
         )
-        .accessibilityElement(
-            children: .combine
+        .shadow(
+            color:
+                mustard.opacity(0.10),
+            radius: 8,
+            x: 0,
+            y: 4
         )
-        .accessibilityIdentifier(
-            "state_card_\(state.id)"
+
+        // ==========================================================
+        // ACCESSIBILITY
+        // ==========================================================
+
+//        .accessibilityElement(
+//            children: .combine
+//        )
+//        .accessibilityIdentifier(
+//            "state_card_\(state.id)"
+//        )
+//        .accessibilityLabel(
+//            "Open \(state.name)"
+//        )
+//        .accessibilityHint(
+//            "Shows details about \(state.name)"
+//        )
+    }
+
+    // ============================================================
+    // MARK: - NATURE CHIP
+    // ============================================================
+
+    private func natureChip(
+        icon: String,
+        category: String,
+        label: String,
+        color: Color
+    ) -> some View {
+
+        HStack(
+            spacing: 4
+        ) {
+
+            Image(
+                systemName: icon
+            )
+            .font(
+                .system(
+                    size: 11,
+                    weight: .bold
+                )
+            )
+            .foregroundStyle(
+                color
+            )
+
+            Text(
+                "\(category):"
+            )
+            .font(
+                .system(
+                    size: 11,
+                    weight: .bold,
+                    design: .rounded
+                )
+            )
+            .foregroundStyle(
+                darkBrown.opacity(0.55)
+            )
+
+            Text(
+                label
+            )
+            .font(
+                .system(
+                    size: 12,
+                    weight: .semibold,
+                    design: .rounded
+                )
+            )
+            .foregroundStyle(
+                darkBrown.opacity(0.78)
+            )
+            .lineLimit(1)
+            .minimumScaleFactor(
+                0.70
+            )
+        }
+        .padding(
+            .horizontal,
+            10
+        )
+        .padding(
+            .vertical,
+            6
+        )
+        .background(
+            Capsule()
+                .fill(
+                    Color.white.opacity(0.80)
+                )
+        )
+        .overlay(
+            Capsule()
+                .stroke(
+                    color.opacity(0.15),
+                    lineWidth: 1
+                )
         )
     }
 }
 
+// ================================================================
+// MARK: - PREVIEW
+// ================================================================
+
 #Preview {
 
-    StateCardView(
-        state: IndianState(
-            id: "punjab",
-            name: "Punjab",
-            imageName: "punjab",
-            tagline: "The Land of Five Rivers",
-            flora: Flora(
-                stateFlower: "Sword Lily",
-                stateTree: "Shisham",
-                majorCrops: [
-                    "Wheat",
-                    "Rice",
-                    "Cotton",
-                    "Sugarcane"
-                ]
-            ),
-            fauna: Fauna(
-                stateAnimal: "Blackbuck",
-                stateBird: "Northern Goshawk"
+    VStack(
+        spacing: 16
+    ) {
+
+        StateCardView(
+            state: IndianState(
+                id: "punjab",
+                name: "Punjab",
+                imageName: "pb",
+                tagline:
+                    "The Land of Five Rivers",
+                flora: Flora(
+                    stateFlower:
+                        "Sword Lily",
+                    stateTree:
+                        "Shisham",
+                    majorCrops: [
+                        "Wheat",
+                        "Rice",
+                        "Cotton",
+                        "Sugarcane"
+                    ]
+                ),
+                fauna: Fauna(
+                    stateAnimal:
+                        "Blackbuck",
+                    stateBird:
+                        "Northern Goshawk"
+                )
             )
         )
-    )
+    }
     .padding(18)
-    .background(Color("Bg"))
+    .background(
+        Color("Bg")
+    )
 }

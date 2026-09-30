@@ -167,9 +167,7 @@ struct StateDetailView: View {
                     Button {
                         dismiss()
                     } label: {
-
                         ZStack {
-
                             Circle()
                                 .fill(
                                     Color.white.opacity(0.92)
@@ -193,9 +191,18 @@ struct StateDetailView: View {
                                     weight: .bold
                                 )
                             )
-                            .foregroundStyle(.white)
+                            .foregroundStyle(darkBrown)
                         }
                     }
+//                    .accessibilityElement(children: .ignore)
+//                    .accessibilityIdentifier("state_detail_back_button")
+//                    .accessibilityLabel("Back")
+//                    .accessibilityHint("Returns to Explore India")
+//                    .accessibilityAddTraits(.isButton)
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("Navigate Back")
+                    .accessibilityHint("Returns to Explore India")
+                    .accessibilityAddTraits(.isButton)
 
                     Spacer()
                 }
@@ -827,7 +834,7 @@ struct StateDetailView: View {
             state: IndianState(
                 id: "punjab",
                 name: "Punjab",
-                imageName: "punjab",
+                imageName: "pb",
                 tagline: "The Land of Five Rivers",
                 flora: Flora(
                     stateFlower: "Sword Lily",
