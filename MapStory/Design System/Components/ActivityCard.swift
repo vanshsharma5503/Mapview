@@ -16,8 +16,6 @@ struct ActivityCard: View {
     let background: Color
     var minHeight: CGFloat = 155
 
-    @State private var isPressed = false
-
     // Compact mode when minHeight < 140
     private var isCompact: Bool {
         minHeight < 140
@@ -149,30 +147,25 @@ struct ActivityCard: View {
             radius: isCompact ? 8 : 12,
             y: isCompact ? 4 : 7
         )
-        .scaleEffect(
-            isPressed ? 0.95 : 1
-        )
-        .animation(
-            .spring(
-                response: 0.25,
-                dampingFraction: 0.7
-            ),
-            value: isPressed
-        )
-        .onLongPressGesture(
-            minimumDuration: 0,
-            maximumDistance: 50,
-            pressing: { pressing in
-                isPressed = pressing
-            },
-            perform: {}
-        )
         .accessibilityElement(
             children: .combine
         )
         .accessibilityLabel(
             "\(title). \(subtitle)"
         )
+    }
+}
+
+struct ActivityCardButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.96 : 1)
+            .rotationEffect(.degrees(configuration.isPressed ? -0.6 : 0))
+            .brightness(configuration.isPressed ? -0.04 : 0)
+            .animation(
+                .spring(response: 0.25, dampingFraction: 0.72),
+                value: configuration.isPressed
+            )
     }
 }
 

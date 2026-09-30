@@ -16,7 +16,7 @@ struct MapStoryAppApp: App {
 
             NavigationStack {
                 MainStateView()
-            } .preferredColorScheme(.dark)
+            }
         }
     }
 }

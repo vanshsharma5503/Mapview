@@ -78,6 +78,15 @@ struct MainStateView: View {
                         maxWidth: .infinity,
                         maxHeight: .infinity
                     )
+                    .contentShape(Rectangle())
+                    .simultaneousGesture(
+                        TapGesture()
+                            .onEnded {
+                                if isSearchFocused {
+                                    isSearchFocused = false
+                                }
+                            }
+                    )
             }
         }
 
@@ -102,19 +111,6 @@ struct MainStateView: View {
             viewModel.loadStates()
         }
 
-        // ========================================================
-        // DISMISS KEYBOARD WHEN TAPPING OUTSIDE SEARCH
-        // ========================================================
-
-        .simultaneousGesture(
-            TapGesture()
-                .onEnded {
-
-                    if isSearchFocused {
-                        isSearchFocused = false
-                    }
-                }
-        )
     }
 
     // ============================================================

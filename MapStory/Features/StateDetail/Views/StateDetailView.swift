@@ -33,12 +33,6 @@ struct StateDetailView: View {
         blue: 0.20
     )
 
-    private let cream = Color(
-        red: 0.975,
-        green: 0.945,
-        blue: 0.865
-    )
-
     private let warmOrange = Color(
         red: 0.94,
         green: 0.57,
@@ -119,13 +113,13 @@ struct StateDetailView: View {
 
                             stateHeader
 
+                            activitiesSection
+
                             natureSection
 
                             if !state.flora.majorCrops.isEmpty {
                                 cropsSection
                             }
-
-                            activitiesSection
 
                             Spacer()
                                 .frame(height: 40)
@@ -138,7 +132,7 @@ struct StateDetailView: View {
                     maxHeight: .infinity,
                     alignment: .top
                 )
-                .background(cream)
+                .background(Color.white)
                 .clipShape(
                     UnevenRoundedRectangle(
                         topLeadingRadius: 34,
@@ -356,26 +350,22 @@ struct StateDetailView: View {
             spacing: 12
         ) {
 
-            HStack(spacing: 7) {
+            VStack(alignment: .leading, spacing: 3) {
+                HStack(spacing: 8) {
+                    Image(systemName: "leaf.fill")
+                        .font(.system(size: 15, weight: .bold))
+                        .foregroundStyle(.white)
+                        .frame(width: 32, height: 32)
+                        .background(olive, in: Circle())
 
-                Image(systemName: "leaf.fill")
-                    .font(
-                        .system(
-                            size: 15,
-                            weight: .bold
-                        )
-                    )
-                    .foregroundStyle(olive)
+                    Text("Nature of \(state.name)")
+                        .font(.system(size: 21, weight: .black, design: .rounded))
+                        .foregroundStyle(darkBrown)
+                }
 
-                Text("Nature of \(state.name)")
-                    .font(
-                        .system(
-                            size: 20,
-                            weight: .black,
-                            design: .rounded
-                        )
-                    )
-                    .foregroundStyle(darkBrown)
+                Text("Meet the plants and animals that make this state special")
+                    .font(.system(size: 13, weight: .medium, design: .rounded))
+                    .foregroundStyle(darkBrown.opacity(0.55))
             }
 
             LazyVGrid(
@@ -451,89 +441,70 @@ struct StateDetailView: View {
         color: Color
     ) -> some View {
 
-        HStack(spacing: 10) {
-
-            ZStack {
-
-                RoundedRectangle(
-                    cornerRadius: 14,
-                    style: .continuous
-                )
-                .fill(color.opacity(0.14))
-                .frame(width: 42, height: 42)
-
+        VStack(alignment: .leading, spacing: 11) {
+            HStack {
                 Image(systemName: icon)
-                    .font(
-                        .system(
-                            size: 18,
-                            weight: .bold
-                        )
+                    .font(.system(size: 21, weight: .bold))
+                    .foregroundStyle(.white)
+                    .frame(width: 46, height: 46)
+                    .background(
+                        LinearGradient(
+                            colors: [color, color.opacity(0.72)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        in: RoundedRectangle(cornerRadius: 15, style: .continuous)
                     )
-                    .foregroundStyle(color)
+                    .shadow(color: color.opacity(0.28), radius: 7, y: 4)
+
+                Spacer()
+
+                Circle()
+                    .fill(color.opacity(0.18))
+                    .frame(width: 9, height: 9)
             }
 
-            VStack(
-                alignment: .leading,
-                spacing: 2
-            ) {
-
+            VStack(alignment: .leading, spacing: 3) {
                 Text(title.uppercased())
-                    .font(
-                        .system(
-                            size: 10,
-                            weight: .bold,
-                            design: .rounded
-                        )
-                    )
-                    .tracking(1)
-                    .foregroundStyle(
-                        darkBrown.opacity(0.40)
-                    )
+                    .font(.system(size: 10, weight: .heavy, design: .rounded))
+                    .tracking(1.2)
+                    .foregroundStyle(color)
 
                 Text(value)
-                    .font(
-                        .system(
-                            size: 13.5,
-                            weight: .bold,
-                            design: .rounded
-                        )
-                    )
-                    .foregroundStyle(
-                        darkBrown.opacity(0.88)
-                    )
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.72)
+                    .font(.system(size: 15, weight: .bold, design: .rounded))
+                    .foregroundStyle(darkBrown.opacity(0.9))
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.78)
             }
-
-            Spacer(minLength: 0)
         }
-        .padding(.horizontal, 11)
-        .padding(.vertical, 10)
+        .padding(13)
         .frame(
             maxWidth: .infinity,
-            minHeight: 62
+            minHeight: 116,
+            alignment: .topLeading
         )
         .background(
-            RoundedRectangle(
-                cornerRadius: 20,
-                style: .continuous
-            )
-            .fill(Color.white.opacity(0.75))
+            LinearGradient(
+                colors: [Color.white.opacity(0.88), color.opacity(0.11)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            ),
+            in: RoundedRectangle(cornerRadius: 22, style: .continuous)
         )
         .overlay(
             RoundedRectangle(
-                cornerRadius: 20,
+                cornerRadius: 22,
                 style: .continuous
             )
             .stroke(
-                Color.white.opacity(0.85),
-                lineWidth: 1.2
+                color.opacity(0.22),
+                lineWidth: 1.4
             )
         )
         .shadow(
-            color: Color.black.opacity(0.04),
-            radius: 8,
-            y: 3
+            color: color.opacity(0.12),
+            radius: 10,
+            y: 5
         )
     }
 
@@ -705,7 +676,7 @@ struct StateDetailView: View {
                 )
                 .padding(.bottom, 2)
 
-            // 2 × 2 Grid
+            // Two immediately available activities
             LazyVGrid(
                 columns: [
                     GridItem(
@@ -721,7 +692,7 @@ struct StateDetailView: View {
             ) {
 
                 NavigationLink {
-                    Text("Puzzle coming next")
+                    PuzzleView(state: state)
                 } label: {
                     ActivityCard(
                         icon: "puzzlepiece.fill",
@@ -736,10 +707,11 @@ struct StateDetailView: View {
                         minHeight: 125
                     )
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(ActivityCardButtonStyle())
+                .accessibilityIdentifier("puzzle_activity_button")
 
                 NavigationLink {
-                    Text("Coloring coming next")
+                    ColoringView(state: state)
                 } label: {
                     ActivityCard(
                         icon: "paintpalette.fill",
@@ -754,43 +726,8 @@ struct StateDetailView: View {
                         minHeight: 125
                     )
                 }
-                .buttonStyle(.plain)
-
-                NavigationLink {
-                    Text("Discover coming next")
-                } label: {
-                    ActivityCard(
-                        icon: "leaf.fill",
-                        title: "Discover",
-                        subtitle: "Meet nature",
-                        accent: .green,
-                        background: Color(
-                            red: 0.68,
-                            green: 0.84,
-                            blue: 0.62
-                        ),
-                        minHeight: 125
-                    )
-                }
-                .buttonStyle(.plain)
-
-                NavigationLink {
-                    Text("Quiz coming next")
-                } label: {
-                    ActivityCard(
-                        icon: "sparkles",
-                        title: "Quiz",
-                        subtitle: "Test your knowledge",
-                        accent: .orange,
-                        background: Color(
-                            red: 1.0,
-                            green: 0.78,
-                            blue: 0.36
-                        ),
-                        minHeight: 125
-                    )
-                }
-                .buttonStyle(.plain)
+                .buttonStyle(ActivityCardButtonStyle())
+                .accessibilityIdentifier("color_activity_button")
             }
         }
     }
@@ -835,6 +772,8 @@ struct StateDetailView: View {
                 id: "punjab",
                 name: "Punjab",
                 imageName: "pb",
+                puzzleImageName: "pb",
+                coloringImageName: "tiger_coloring",
                 tagline: "The Land of Five Rivers",
                 flora: Flora(
                     stateFlower: "Sword Lily",

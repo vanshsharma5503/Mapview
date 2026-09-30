@@ -3,6 +3,8 @@
     "id": "punjab",
     "name": "Punjab",
     "imageName": "pb",
+    "puzzleImageName": "pb",
+    "coloringImageName": "tiger_coloring",
 
     "tagline": "The Land of Five Rivers",
 
@@ -26,6 +28,8 @@
     "id": "andhra-pradesh",
     "name": "Andhra Pradesh",
     "imageName": "ap",
+    "puzzleImageName": "ap",
+    "coloringImageName": "andhra_pradesh_coloring",
     "tagline": "The Essence of Incredible India",
     "flora": {
       "stateFlower": "Jasmine",
@@ -46,6 +50,8 @@
     "id": "maharashtra",
     "name": "Maharashtra",
     "imageName": "mh",
+    "puzzleImageName": "mh",
+    "coloringImageName": "maharashtra_coloring",
     "tagline": "The Great Land of the Marathas",
     "flora": {
       "stateFlower": "Jarul",
@@ -66,6 +72,8 @@
     "id": "arunachal-pradesh",
     "name": "Arunachal Pradesh",
     "imageName": "ar",
+    "puzzleImageName": "ar",
+    "coloringImageName": "arunachal_pradesh_coloring",
     "tagline": "The Land of the Dawn-Lit Mountains",
     "flora": {
       "stateFlower": "Foxtail Orchid",
@@ -81,6 +89,5 @@
       "stateAnimal": "Mithun",
       "stateBird": "Great Hornbill"
     }
-  },
+  }
 ]
-

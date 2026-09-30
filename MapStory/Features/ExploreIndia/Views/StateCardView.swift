@@ -426,6 +426,8 @@ struct StateCardView: View {
                 id: "punjab",
                 name: "Punjab",
                 imageName: "pb",
+                puzzleImageName: "pb",
+                coloringImageName: "tiger_coloring",
                 tagline:
                     "The Land of Five Rivers",
                 flora: Flora(
