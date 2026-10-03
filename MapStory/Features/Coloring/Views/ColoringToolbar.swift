@@ -16,10 +16,12 @@ struct ColoringToolbar: View {
             HStack(spacing: 6) {
                 ForEach(ColoringTool.allCases) { tool in
                     Button {
-                        onSelectTool(tool)
+                        withAnimation(.spring(response: 0.28, dampingFraction: 0.72)) {
+                            onSelectTool(tool)
+                        }
                     } label: {
-                        Label(tool.title, systemImage: tool.symbolName)
-                            .font(.system(.caption, design: .rounded, weight: .bold))
+                        Image(systemName: tool.symbolName)
+                            .font(.system(size: 18, weight: .bold))
                             .frame(maxWidth: .infinity, minHeight: 40)
                             .foregroundStyle(selectedTool == tool ? .white : Color(red: 0.32, green: 0.19, blue: 0.12))
                             .background(
@@ -28,15 +30,23 @@ struct ColoringToolbar: View {
                                     : Color(red: 1, green: 0.96, blue: 0.86),
                                 in: Capsule()
                             )
+                            .scaleEffect(selectedTool == tool ? 1.08 : 1)
+                            .shadow(
+                                color: Color(red: 0.55, green: 0.24, blue: 0.12)
+                                    .opacity(selectedTool == tool ? 0.24 : 0),
+                                radius: 5,
+                                y: 3
+                            )
                     }
                     .buttonStyle(.plain)
+                    .accessibilityLabel(tool.title)
                     .accessibilityAddTraits(selectedTool == tool ? .isSelected : [])
                     .accessibilityIdentifier("coloring_tool_\(tool.rawValue)")
                 }
             }
 
             HStack(spacing: 6) {
-                if selectedTool != .fill {
+                if selectedTool == .brush || selectedTool == .eraser {
                     Picker("Brush size", selection: Binding(get: { brushSize }, set: onSelectBrushSize)) {
                         ForEach(ColoringBrushSize.allCases) { size in
                             Text(size.rawValue.capitalized).tag(size)

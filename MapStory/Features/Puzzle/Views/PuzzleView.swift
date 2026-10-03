@@ -25,9 +25,9 @@ struct PuzzleView: View {
                         .layoutPriority(1)
                     PuzzleControls(canHint: !model.isComplete, onHint: showHint, onRestart: model.restart)
                 }
-                .frame(width: geometry.size.width, height: geometry.size.height)
                 .padding(.horizontal, 14)
                 .padding(.vertical, 8)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
         .navigationTitle("Puzzle")
@@ -134,26 +134,75 @@ private struct PuzzleProgress: View {
     }
 }
 
+private struct PuzzleDragState {
+    let piece: PuzzlePiece
+    let displaySize: CGSize
+    let globalLocation: CGPoint
+}
+
 private struct PuzzlePlayArea: View {
     let model: PuzzleViewModel
     @State private var boardFrame: CGRect = .zero
+    @State private var draggedPiece: PuzzleDragState?
 
     var body: some View {
         GeometryReader { geometry in
+            let playAreaFrame = geometry.frame(in: .global)
             let maximumBoardHeight = max(150, geometry.size.height * 0.58)
             let boardWidth = min(geometry.size.width, 440, maximumBoardHeight / 0.75)
             let boardSize = CGSize(width: boardWidth, height: boardWidth * 0.75)
-            VStack(spacing: 10) {
-                PuzzleBoard(model: model, size: boardSize)
-                    .background {
-                        GeometryReader { boardGeometry in
-                            Color.clear
-                                .onAppear { boardFrame = boardGeometry.frame(in: .global) }
-                                .onChange(of: boardGeometry.frame(in: .global)) { _, frame in boardFrame = frame }
+
+            ZStack {
+                VStack(spacing: 10) {
+                    PuzzleBoard(model: model, size: boardSize)
+                        .background {
+                            GeometryReader { boardGeometry in
+                                Color.clear
+                                    .onAppear { boardFrame = boardGeometry.frame(in: .global) }
+                                    .onChange(of: boardGeometry.frame(in: .global)) { _, frame in boardFrame = frame }
+                            }
                         }
-                    }
-                PuzzleTray(model: model, boardSize: boardSize, boardFrame: boardFrame)
+
+                    PuzzleTray(
+                        model: model,
+                        boardSize: boardSize,
+                        boardFrame: boardFrame,
+                        onDragChanged: { piece, displaySize, location in
+                            draggedPiece = PuzzleDragState(
+                                piece: piece,
+                                displaySize: displaySize,
+                                globalLocation: location
+                            )
+                        },
+                        onDragEnded: {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.76)) {
+                                draggedPiece = nil
+                            }
+                        }
+                    )
                     .frame(maxHeight: .infinity)
+                }
+
+                if let draggedPiece {
+                    PuzzlePieceArtwork(
+                        imageName: model.imageName,
+                        piece: draggedPiece.piece,
+                        configuration: model.configuration,
+                        boardSize: boardSize,
+                        pieceSize: draggedPiece.displaySize
+                    )
+                    .frame(width: draggedPiece.displaySize.width, height: draggedPiece.displaySize.height)
+                    .scaleEffect(1.13)
+                    .rotationEffect(.degrees(-2))
+                    .shadow(color: .black.opacity(0.3), radius: 14, y: 9)
+                    .position(
+                        x: draggedPiece.globalLocation.x - playAreaFrame.minX,
+                        y: draggedPiece.globalLocation.y - playAreaFrame.minY
+                    )
+                    .allowsHitTesting(false)
+                    .transition(.scale(scale: 0.88).combined(with: .opacity))
+                    .zIndex(100)
+                }
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
@@ -231,13 +280,15 @@ private struct PuzzleTray: View {
     let model: PuzzleViewModel
     let boardSize: CGSize
     let boardFrame: CGRect
+    let onDragChanged: (PuzzlePiece, CGSize, CGPoint) -> Void
+    let onDragEnded: () -> Void
 
     var body: some View {
         let columnCount = min(model.configuration.columns, 4)
         let columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: columnCount)
         let pieceWidth = min((boardSize.width - CGFloat(columnCount - 1) * 10) / CGFloat(columnCount), 110)
         let displaySize = CGSize(width: pieceWidth, height: pieceWidth * 0.75)
-        ScrollView(.vertical, showsIndicators: model.configuration.pieceCount > 12) {
+        ScrollView(.vertical, showsIndicators: true) {
             LazyVGrid(columns: columns, spacing: 10) {
                 ForEach(model.unplacedPieces) { piece in
                     DraggablePuzzlePiece(
@@ -245,7 +296,9 @@ private struct PuzzleTray: View {
                         piece: piece,
                         boardSize: boardSize,
                         boardFrame: boardFrame,
-                        displaySize: displaySize
+                        displaySize: displaySize,
+                        onDragChanged: onDragChanged,
+                        onDragEnded: onDragEnded
                     )
                 }
             }
@@ -254,6 +307,7 @@ private struct PuzzleTray: View {
         .background(Color.white.opacity(0.58), in: RoundedRectangle(cornerRadius: 22, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 22, style: .continuous).stroke(Color.orange.opacity(0.24), lineWidth: 2))
         .accessibilityLabel("Puzzle piece tray")
+        .accessibilityIdentifier("puzzle_piece_tray")
     }
 }
 
@@ -263,7 +317,8 @@ private struct DraggablePuzzlePiece: View {
     let boardSize: CGSize
     let boardFrame: CGRect
     let displaySize: CGSize
-    @State private var translation: CGSize = .zero
+    let onDragChanged: (PuzzlePiece, CGSize, CGPoint) -> Void
+    let onDragEnded: () -> Void
     @State private var isDragging = false
 
     var body: some View {
@@ -275,10 +330,8 @@ private struct DraggablePuzzlePiece: View {
             pieceSize: displaySize
         )
         .frame(minWidth: 44, minHeight: 44)
-        .shadow(color: .black.opacity(isDragging ? 0.26 : 0.14), radius: isDragging ? 12 : 5, y: isDragging ? 8 : 3)
-        .scaleEffect(isDragging ? 1.08 : 1)
-        .offset(translation)
-        .zIndex(isDragging ? 10 : 0)
+        .shadow(color: .black.opacity(0.14), radius: 5, y: 3)
+        .scaleEffect(isDragging ? 1.06 : 1)
         .phaseAnimator(
             [CGFloat.zero, -8, 8, -6, 6, 0],
             trigger: model.hintSequence
@@ -288,14 +341,30 @@ private struct DraggablePuzzlePiece: View {
             .easeInOut(duration: 0.08)
         }
         .gesture(
-            DragGesture(coordinateSpace: .global)
-                .onChanged { value in isDragging = true; translation = value.translation }
-                .onEnded { value in
-                    let placed = model.place(pieceID: piece.id, dropPoint: value.location, boardFrame: boardFrame)
-                    withAnimation(.spring(response: placed ? 0.3 : 0.42, dampingFraction: 0.7)) {
-                        translation = .zero
-                        isDragging = false
+            LongPressGesture(minimumDuration: 0.12, maximumDistance: 12)
+                .sequenced(before: DragGesture(minimumDistance: 0, coordinateSpace: .global))
+                .onChanged { value in
+                    switch value {
+                    case .first(true):
+                        withAnimation(.spring(response: 0.2, dampingFraction: 0.72)) {
+                            isDragging = true
+                        }
+                    case .second(true, let drag?):
+                        isDragging = true
+                        onDragChanged(piece, displaySize, drag.location)
+                    default:
+                        break
                     }
+                }
+                .onEnded { value in
+                    defer {
+                        withAnimation(.spring(response: 0.34, dampingFraction: 0.74)) {
+                            isDragging = false
+                            onDragEnded()
+                        }
+                    }
+                    guard case .second(true, let drag?) = value else { return }
+                    _ = model.place(pieceID: piece.id, dropPoint: drag.location, boardFrame: boardFrame)
                 }
         )
         .accessibilityLabel("Puzzle piece \(piece.correctIndex + 1) of \(model.pieces.count)")
@@ -405,10 +474,12 @@ private struct PuzzleControls: View {
                     .frame(maxWidth: .infinity, minHeight: 42)
             }
             .disabled(!canHint)
+            .accessibilityIdentifier("puzzle_hint_button")
             Button(action: onRestart) {
                 Label("Restart", systemImage: "arrow.clockwise")
                     .frame(maxWidth: .infinity, minHeight: 42)
             }
+            .accessibilityIdentifier("puzzle_restart_button")
         }
         .font(.system(.subheadline, design: .rounded, weight: .bold))
         .foregroundStyle(Color(red: 0.34, green: 0.20, blue: 0.12))

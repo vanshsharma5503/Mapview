@@ -428,5 +428,17 @@ final class StateNavigationUITests: XCTestCase {
             app.staticTexts["Piece Together Punjab"].waitForExistence(timeout: 10),
             "Tapping Puzzle should open Punjab's puzzle screen."
         )
+        XCTAssertTrue(
+            app.buttons["puzzle_hint_button"].isHittable,
+            "Hint should remain visible without scrolling the puzzle screen."
+        )
+        XCTAssertTrue(
+            app.buttons["puzzle_restart_button"].isHittable,
+            "Restart should remain visible without scrolling the puzzle screen."
+        )
+        XCTAssertTrue(
+            app.scrollViews["puzzle_piece_tray"].exists,
+            "Only the puzzle piece tray should provide scrolling."
+        )
     }
 }

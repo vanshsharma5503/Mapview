@@ -39,6 +39,21 @@ final class ColoringUITests: XCTestCase {
         XCTAssertTrue(brush.isSelected)
     }
 
+    func testZoomControlsAreAvailable() {
+        openPunjabColoring()
+        let zoomIn = app.buttons["coloring_zoom_in"]
+        let zoomReset = app.buttons["coloring_zoom_reset"]
+        let zoomOut = app.buttons["coloring_zoom_out"]
+
+        XCTAssertTrue(zoomIn.waitForExistence(timeout: 15))
+        XCTAssertTrue(zoomReset.exists)
+        XCTAssertTrue(zoomOut.exists)
+        zoomIn.tap()
+        let enabled = NSPredicate(format: "isEnabled == true")
+        expectation(for: enabled, evaluatedWith: zoomOut)
+        waitForExpectations(timeout: 3)
+    }
+
     func testUndoButton() {
         openPunjabColoring()
         XCTAssertTrue(app.buttons["coloring_undo"].waitForExistence(timeout: 15))
@@ -63,6 +78,16 @@ final class ColoringUITests: XCTestCase {
         let colorActivity = app.buttons["color_activity_button"]
         for _ in 0..<4 where !colorActivity.isHittable { app.swipeUp() }
         XCTAssertTrue(colorActivity.waitForExistence(timeout: 10))
+        XCTAssertTrue(colorActivity.isHittable)
         colorActivity.tap()
+
+        XCTAssertTrue(
+            app.otherElements["coloring_page"].waitForExistence(timeout: 15),
+            "Coloring page should finish navigation before controls are queried."
+        )
+        XCTAssertTrue(
+            app.buttons["coloring_tool_fill"].waitForExistence(timeout: 30),
+            "Coloring engine should finish preparing before controls are queried."
+        )
     }
 }

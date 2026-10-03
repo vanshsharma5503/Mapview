@@ -14,7 +14,10 @@ struct ColoringView: View {
 
     var body: some View {
         ZStack {
-            Color("Bg").ignoresSafeArea()
+            Color("Bg")
+                .ignoresSafeArea()
+                .accessibilityElement()
+                .accessibilityIdentifier("coloring_page")
             ColoringStorybookBackground()
 
             GeometryReader { geometry in
@@ -67,9 +70,9 @@ struct ColoringView: View {
                             .padding(40)
                     }
                 }
-                .frame(width: geometry.size.width, height: geometry.size.height)
                 .padding(.horizontal, 14)
                 .padding(.vertical, 8)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
         .navigationTitle("Color")
@@ -83,7 +86,6 @@ struct ColoringView: View {
         }
         .animation(.spring(response: 0.45, dampingFraction: 0.78), value: model.progress.isComplete)
         .sensoryFeedback(.success, trigger: model.completionSequence)
-        .accessibilityIdentifier("coloring_page")
     }
 }
 

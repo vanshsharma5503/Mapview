@@ -51,13 +51,17 @@ enum RegionDetector {
                 let y = index / pixels.width
                 touchesEdge = touchesEdge || x == 0 || y == 0 || x == pixels.width - 1 || y == pixels.height - 1
 
-                let neighbors = [index - 1, index + 1, index - pixels.width, index + pixels.width]
-                for neighbor in neighbors {
-                    guard neighbor >= 0, neighbor < count else { continue }
-                    let neighborX = neighbor % pixels.width
-                    if abs(neighborX - x) > 1 || regionMap[neighbor] != -1 { continue }
-                    regionMap[neighbor] = id
-                    queue.append(neighbor)
+                if x > 0 {
+                    enqueue(index - 1, regionID: id, regionMap: &regionMap, queue: &queue)
+                }
+                if x + 1 < pixels.width {
+                    enqueue(index + 1, regionID: id, regionMap: &regionMap, queue: &queue)
+                }
+                if y > 0 {
+                    enqueue(index - pixels.width, regionID: id, regionMap: &regionMap, queue: &queue)
+                }
+                if y + 1 < pixels.height {
+                    enqueue(index + pixels.width, regionID: id, regionMap: &regionMap, queue: &queue)
                 }
             }
 
@@ -72,6 +76,17 @@ enum RegionDetector {
             )
         }
         return ColoringRegionAnalysis(boundaryMap: boundaries, regionMap: regionMap, regions: filteredRegions)
+    }
+
+    private nonisolated static func enqueue(
+        _ index: Int,
+        regionID: Int,
+        regionMap: inout [Int],
+        queue: inout [Int]
+    ) {
+        guard regionMap[index] == -1 else { return }
+        regionMap[index] = regionID
+        queue.append(index)
     }
 
     nonisolated static func isBoundary(

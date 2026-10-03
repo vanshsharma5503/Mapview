@@ -13,6 +13,8 @@ struct ColoringCanvas: View {
     @State private var zoomScale: CGFloat = 1
     @State private var gestureScale: CGFloat = 1
     @State private var zoomAnchor: UnitPoint = .center
+    @State private var panOffset: CGSize = .zero
+    @State private var panGestureOffset: CGSize = .zero
 
     private let minimumZoom: CGFloat = 1
     private let maximumZoom: CGFloat = 4
@@ -21,7 +23,11 @@ struct ColoringCanvas: View {
         GeometryReader { geometry in
             let imageFrame = aspectFitFrame(imageSize: imagePixelSize, in: geometry.size)
             let effectiveScale = clampedZoom(zoomScale * gestureScale)
-            let zoomedFrame = scaledFrame(imageFrame, scale: effectiveScale, anchor: zoomAnchor)
+            let scaledImageFrame = scaledFrame(imageFrame, scale: effectiveScale, anchor: zoomAnchor)
+            let zoomedFrame = scaledImageFrame.offsetBy(
+                dx: panOffset.width + panGestureOffset.width,
+                dy: panOffset.height + panGestureOffset.height
+            )
 
             Image(uiImage: image)
                 .resizable()
@@ -35,6 +41,15 @@ struct ColoringCanvas: View {
                         imageFrame: zoomedFrame,
                         imagePixelSize: imagePixelSize,
                         isStroking: $isStroking,
+                        isZoomed: effectiveScale > minimumZoom,
+                        onPanChanged: { panGestureOffset = $0 },
+                        onPanEnded: {
+                            commitPan(
+                                translation: $0,
+                                scaledFrame: scaledImageFrame,
+                                containerSize: geometry.size
+                            )
+                        },
                         onFill: onFill,
                         onStrokeBegan: onStrokeBegan,
                         onStrokeChanged: onStrokeChanged,
@@ -53,7 +68,6 @@ struct ColoringCanvas: View {
             .padding(10)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
         }
-        .aspectRatio(imagePixelSize.width / max(imagePixelSize.height, 1), contentMode: .fit)
         .background(Color.white, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
         .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 22, style: .continuous).stroke(Color.brown.opacity(0.3), lineWidth: 2))
@@ -70,7 +84,7 @@ struct ColoringCanvas: View {
                 }
         )
         .accessibilityLabel("Coloring canvas")
-        .accessibilityHint("Pinch or use the zoom buttons to enlarge small areas")
+        .accessibilityHint("Pinch or use the zoom buttons to enlarge small areas, then drag to move around the picture")
     }
 
     private func aspectFitFrame(imageSize: CGSize, in container: CGSize) -> CGRect {
@@ -101,9 +115,39 @@ struct ColoringCanvas: View {
         withAnimation(.spring(response: 0.3, dampingFraction: 0.82)) {
             if scale <= minimumZoom {
                 zoomAnchor = .center
+                panOffset = .zero
+                panGestureOffset = .zero
             }
             zoomScale = clampedZoom(scale)
             gestureScale = 1
+        }
+    }
+
+    private func commitPan(
+        translation: CGSize,
+        scaledFrame: CGRect,
+        containerSize: CGSize
+    ) {
+        let proposed = CGSize(
+            width: panOffset.width + translation.width,
+            height: panOffset.height + translation.height
+        )
+        let minimumVisibleLength: CGFloat = 64
+        let horizontalRange = (
+            lower: minimumVisibleLength - scaledFrame.maxX,
+            upper: containerSize.width - minimumVisibleLength - scaledFrame.minX
+        )
+        let verticalRange = (
+            lower: minimumVisibleLength - scaledFrame.maxY,
+            upper: containerSize.height - minimumVisibleLength - scaledFrame.minY
+        )
+
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.84)) {
+            panOffset = CGSize(
+                width: min(max(proposed.width, horizontalRange.lower), horizontalRange.upper),
+                height: min(max(proposed.height, verticalRange.lower), verticalRange.upper)
+            )
+            panGestureOffset = .zero
         }
     }
 }
@@ -119,6 +163,7 @@ private struct ColoringZoomControls: View {
     var body: some View {
         HStack(spacing: 4) {
             zoomButton("Zoom out", symbol: "minus.magnifyingglass", enabled: canZoomOut, action: onZoomOut)
+                .accessibilityIdentifier("coloring_zoom_out")
             Button(action: onReset) {
                 Text("\(Int((scale * 100).rounded()))%")
                     .font(.system(.caption2, design: .rounded, weight: .black))
@@ -127,7 +172,9 @@ private struct ColoringZoomControls: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Reset zoom")
+            .accessibilityIdentifier("coloring_zoom_reset")
             zoomButton("Zoom in", symbol: "plus.magnifyingglass", enabled: canZoomIn, action: onZoomIn)
+                .accessibilityIdentifier("coloring_zoom_in")
         }
         .padding(5)
         .background(Color(red: 1, green: 0.95, blue: 0.82).opacity(0.94), in: Capsule())
@@ -159,6 +206,9 @@ private struct ColoringCanvasInteraction: ViewModifier {
     let imageFrame: CGRect
     let imagePixelSize: CGSize
     @Binding var isStroking: Bool
+    let isZoomed: Bool
+    let onPanChanged: (CGSize) -> Void
+    let onPanEnded: (CGSize) -> Void
     let onFill: (CGPoint) -> Void
     let onStrokeBegan: (CGPoint) -> Void
     let onStrokeChanged: (CGPoint) -> Void
@@ -166,7 +216,27 @@ private struct ColoringCanvasInteraction: ViewModifier {
 
     @ViewBuilder
     func body(content: Content) -> some View {
-        if tool == .fill {
+        if isZoomed && tool == .fill {
+            content
+                .gesture(
+                    DragGesture(minimumDistance: 5, coordinateSpace: .local)
+                        .onChanged { value in onPanChanged(value.translation) }
+                        .onEnded { value in onPanEnded(value.translation) }
+                )
+                .simultaneousGesture(
+                    SpatialTapGesture()
+                        .onEnded { value in
+                            guard let point = imagePoint(from: value.location) else { return }
+                            onFill(point)
+                        }
+                )
+        } else if isZoomed {
+            content.gesture(
+                DragGesture(minimumDistance: 5, coordinateSpace: .local)
+                    .onChanged { value in onPanChanged(value.translation) }
+                    .onEnded { value in onPanEnded(value.translation) }
+            )
+        } else if tool == .fill {
             content.gesture(
                 SpatialTapGesture()
                     .onEnded { value in

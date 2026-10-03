@@ -99,7 +99,7 @@ final class ColoringViewModel {
     }
 
     func beginStroke(at imagePoint: CGPoint) {
-        guard selectedTool != .fill, let engine else { return }
+        guard selectedTool == .brush || selectedTool == .eraser, let engine else { return }
         guard engine.beginStroke(at: imagePoint) else { return }
         lastBrushPoint = imagePoint
         applyStrokePoint(imagePoint)
@@ -107,7 +107,7 @@ final class ColoringViewModel {
     }
 
     func continueStroke(at imagePoint: CGPoint) {
-        guard selectedTool != .fill, let previous = lastBrushPoint else { return }
+        guard selectedTool == .brush || selectedTool == .eraser, let previous = lastBrushPoint else { return }
         let dx = imagePoint.x - previous.x
         let dy = imagePoint.y - previous.y
         let distance = hypot(dx, dy)
