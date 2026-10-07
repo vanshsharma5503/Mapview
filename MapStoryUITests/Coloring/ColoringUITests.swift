@@ -71,8 +71,14 @@ final class ColoringUITests: XCTestCase {
     }
 
     private func openPunjabColoring() {
+        let searchField = app.textFields["state_search_field"]
+        XCTAssertTrue(searchField.waitForExistence(timeout: 10))
+        searchField.tap()
+        searchField.typeText("Punjab")
+
         let stateCard = app.buttons["state_card_punjab"]
         XCTAssertTrue(stateCard.waitForExistence(timeout: 10))
+        XCTAssertTrue(stateCard.isHittable)
         stateCard.tap()
 
         let colorActivity = app.buttons["color_activity_button"]

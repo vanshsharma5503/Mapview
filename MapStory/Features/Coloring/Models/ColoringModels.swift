@@ -13,7 +13,8 @@ enum ColoringTool: String, CaseIterable, Identifiable, Sendable {
     var symbolName: String {
         switch self {
         case .brush: "paintbrush.fill"
-        case .fill: "paintbucket"
+//        case .fill: "roller.shade.fill"
+        case .fill: "drop.fill"
         case .eraser: "eraser.fill"
         }
     }

@@ -20,23 +20,27 @@ struct ColoringToolbar: View {
                             onSelectTool(tool)
                         }
                     } label: {
-                        Image(systemName: tool.symbolName)
-                            .font(.system(size: 18, weight: .bold))
-                            .frame(maxWidth: .infinity, minHeight: 40)
-                            .foregroundStyle(selectedTool == tool ? .white : Color(red: 0.32, green: 0.19, blue: 0.12))
-                            .background(
-                                selectedTool == tool
-                                    ? Color(red: 0.78, green: 0.34, blue: 0.16)
-                                    : Color(red: 1, green: 0.96, blue: 0.86),
-                                in: Capsule()
-                            )
-                            .scaleEffect(selectedTool == tool ? 1.08 : 1)
-                            .shadow(
-                                color: Color(red: 0.55, green: 0.24, blue: 0.12)
-                                    .opacity(selectedTool == tool ? 0.24 : 0),
-                                radius: 5,
-                                y: 3
-                            )
+                        HStack(spacing: 6) {
+                            Image(systemName: tool.symbolName)
+                                .font(.system(size: 17, weight: .bold))
+                            Text(tool.title)
+                                .font(.system(.caption, design: .rounded, weight: .bold))
+                        }
+                        .frame(maxWidth: .infinity, minHeight: 40)
+                        .foregroundStyle(selectedTool == tool ? .white : Color(red: 0.32, green: 0.19, blue: 0.12))
+                        .background(
+                            selectedTool == tool
+                                ? Color(red: 0.78, green: 0.34, blue: 0.16)
+                                : Color(red: 1, green: 0.96, blue: 0.86),
+                            in: Capsule()
+                        )
+                        .scaleEffect(selectedTool == tool ? 1.04 : 1)
+                        .shadow(
+                            color: Color(red: 0.55, green: 0.24, blue: 0.12)
+                                .opacity(selectedTool == tool ? 0.24 : 0),
+                            radius: 5,
+                            y: 3
+                        )
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel(tool.title)

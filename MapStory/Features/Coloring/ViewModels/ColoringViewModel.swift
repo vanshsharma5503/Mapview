@@ -43,7 +43,7 @@ final class ColoringViewModel {
     private var didReportCompletion = false
     private var isPreparing = false
     private var lastInteractiveRenderTime: TimeInterval = 0
-    private let minimumInteractiveRenderInterval: TimeInterval = 1.0 / 24.0
+    private let minimumInteractiveRenderInterval: TimeInterval = 1.0 / 60.0
 
     init(
         imageName: String,

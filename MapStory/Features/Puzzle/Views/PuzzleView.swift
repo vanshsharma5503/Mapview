@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PuzzleView: View {
     let state: IndianState
+    @Environment(\.dismiss) private var dismiss
     @State private var model: PuzzleViewModel
 
     init(state: IndianState, onPuzzleCompleted: @escaping () -> Void = {}) {
@@ -37,7 +38,8 @@ struct PuzzleView: View {
                 PuzzleCompletionOverlay(
                     imageName: model.imageName,
                     stateName: state.name,
-                    onPlayAgain: model.restart
+                    onPlayAgain: model.restart,
+                    onDone: { dismiss() }
                 )
                 .transition(.scale.combined(with: .opacity))
             }
@@ -492,28 +494,109 @@ private struct PuzzleCompletionOverlay: View {
     let imageName: String
     let stateName: String
     let onPlayAgain: () -> Void
+    let onDone: () -> Void
+
+    @State private var isCelebrating = false
 
     var body: some View {
         ZStack {
-            Color.black.opacity(0.28).ignoresSafeArea()
+            Color.black.opacity(0.32)
+                .ignoresSafeArea()
+
+            celebrationSparkles
+
             VStack(spacing: 16) {
-                Image(systemName: "sparkles").font(.system(size: 36, weight: .bold)).foregroundStyle(.orange)
-                Text("Puzzle Complete!").font(.system(.title, design: .rounded, weight: .black))
+                ZStack {
+                    Circle()
+                        .fill(Color.orange.opacity(0.16))
+                        .frame(width: 78, height: 78)
+                        .scaleEffect(isCelebrating ? 1.12 : 0.82)
+
+                    Image(systemName: "trophy.fill")
+                        .font(.system(size: 38, weight: .bold))
+                        .foregroundStyle(.orange)
+                        .rotationEffect(.degrees(isCelebrating ? 0 : -12))
+                }
+
+                Text("Puzzle Complete!")
+                    .font(.system(.title, design: .rounded, weight: .black))
+
                 Text("Beautiful work—you put together \(stateName).")
-                    .font(.system(.body, design: .rounded, weight: .medium)).multilineTextAlignment(.center)
-                Image(imageName).resizable().scaledToFit().frame(maxHeight: 210)
+                    .font(.system(.body, design: .rounded, weight: .medium))
+                    .multilineTextAlignment(.center)
+
+                Image(imageName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxHeight: 210)
                     .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-                Button("Play Again", action: onPlayAgain)
-                    .buttonStyle(.borderedProminent).tint(.orange).controlSize(.large)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 18, style: .continuous)
+                            .stroke(Color.white.opacity(0.8), lineWidth: 3)
+                    )
+                    .shadow(color: .orange.opacity(0.24), radius: 12, y: 6)
+                    .scaleEffect(isCelebrating ? 1 : 0.86)
+
+                HStack(spacing: 12) {
+                    Button(action: onPlayAgain) {
+                        Label("Play Again", systemImage: "arrow.clockwise")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(.orange)
+
+                    Button(action: onDone) {
+                        Label("Done", systemImage: "checkmark.circle.fill")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.orange)
+                    .accessibilityIdentifier("puzzle_done_button")
+                }
+                .controlSize(.large)
             }
             .foregroundStyle(.brown)
-            .padding(24).frame(maxWidth: 420)
-            .background(Color(red: 1, green: 0.96, blue: 0.84), in: RoundedRectangle(cornerRadius: 28, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: 28, style: .continuous).stroke(Color.orange.opacity(0.5), lineWidth: 3))
-            .shadow(radius: 24).padding(24)
+            .padding(24)
+            .frame(maxWidth: 420)
+            .background(
+                Color(red: 1, green: 0.96, blue: 0.84),
+                in: RoundedRectangle(cornerRadius: 28, style: .continuous)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 28, style: .continuous)
+                    .stroke(Color.orange.opacity(0.5), lineWidth: 3)
+            )
+            .shadow(color: .black.opacity(0.28), radius: 24, y: 12)
+            .padding(24)
+            .scaleEffect(isCelebrating ? 1 : 0.72)
+            .opacity(isCelebrating ? 1 : 0)
         }
         .accessibilityElement(children: .contain)
         .accessibilityAddTraits(.isModal)
+        .onAppear {
+            withAnimation(.spring(response: 0.58, dampingFraction: 0.68)) {
+                isCelebrating = true
+            }
+        }
+    }
+
+    private var celebrationSparkles: some View {
+        ZStack {
+            ForEach(0..<10, id: \.self) { index in
+                Image(systemName: index.isMultiple(of: 2) ? "star.fill" : "sparkles")
+                    .font(.system(size: CGFloat(13 + index % 3 * 4), weight: .bold))
+                    .foregroundStyle(index.isMultiple(of: 2) ? Color.yellow : Color.orange)
+                    .offset(
+                        x: cos(Double(index) * .pi / 5) * (isCelebrating ? 155 : 30),
+                        y: sin(Double(index) * .pi / 5) * (isCelebrating ? 245 : 50)
+                    )
+                    .rotationEffect(.degrees(isCelebrating ? Double(index * 54) : 0))
+                    .opacity(isCelebrating ? 1 : 0)
+            }
+        }
+        .animation(.spring(response: 0.8, dampingFraction: 0.62).delay(0.08), value: isCelebrating)
+        .allowsHitTesting(false)
+        .accessibilityHidden(true)
     }
 }
 

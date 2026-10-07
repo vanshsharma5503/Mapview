@@ -126,7 +126,7 @@ struct StateCardView: View {
                 )
                 .glassEffect(
                     .regular.tint(
-                        Color.white.opacity(0.6)
+                        Color.white.opacity(0.7)
                     ),
                     in: .rect(
                         cornerRadius: 16

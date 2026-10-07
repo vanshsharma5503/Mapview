@@ -198,25 +198,23 @@ final class SearchUITests: XCTestCase {
             "Clear button should disappear after clearing the search."
         )
 
-        // After clearing, all states should be available again.
-        XCTAssertTrue(
-            stateCard(id: "punjab").waitForExistence(timeout: 10),
-            "Punjab should be visible again after clearing the search."
-        )
-
+        // Clearing restores the alphabetically ordered, unfiltered list.
         XCTAssertTrue(
             stateCard(id: "andhra-pradesh").waitForExistence(timeout: 10),
-            "Andhra Pradesh should be visible again after clearing the search."
+            "The first alphabetic state should be visible after clearing the search."
         )
-
-        XCTAssertTrue(
-            stateCard(id: "maharashtra").waitForExistence(timeout: 10),
-            "Maharashtra should be visible again after clearing the search."
-        )
-
         XCTAssertTrue(
             stateCard(id: "arunachal-pradesh").waitForExistence(timeout: 10),
-            "Arunachal Pradesh should be visible again after clearing the search."
+            "The unfiltered list should contain the next alphabetic state."
+        )
+
+        // Verify a state outside the initial viewport is available again by
+        // filtering for it, rather than assuming every lazy-grid row exists.
+        activateSearchField()
+        searchField.typeText("Maharashtra")
+        XCTAssertTrue(
+            stateCard(id: "maharashtra").waitForExistence(timeout: 10),
+            "Maharashtra should be available after clearing and searching again."
         )
     }
 

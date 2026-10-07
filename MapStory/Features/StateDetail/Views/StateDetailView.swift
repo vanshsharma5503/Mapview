@@ -368,64 +368,50 @@ struct StateDetailView: View {
                     .foregroundStyle(darkBrown.opacity(0.55))
             }
 
-            LazyVGrid(
-                columns: [
-                    GridItem(
-                        .flexible(),
-                        spacing: 10
-                    ),
-                    GridItem(
-                        .flexible(),
-                        spacing: 10
-                    )
-                ],
-                spacing: 10
-            ) {
-
+            VStack(spacing: 0) {
                 natureItem(
                     icon: "camera.macro",
-                    title: "Flower",
+                    title: "State flower",
                     value: state.flora.stateFlower,
-                    color: Color(
-                        red: 0.92,
-                        green: 0.35,
-                        blue: 0.55
-                    )
+                    color: Color(red: 0.92, green: 0.35, blue: 0.55)
                 )
+
+                Divider().padding(.leading, 52)
 
                 natureItem(
                     icon: "leaf.fill",
-                    title: "Tree",
+                    title: "State tree",
                     value: state.flora.stateTree,
-                    color: Color(
-                        red: 0.22,
-                        green: 0.62,
-                        blue: 0.35
-                    )
+                    color: Color(red: 0.22, green: 0.62, blue: 0.35)
                 )
+
+                Divider().padding(.leading, 52)
 
                 natureItem(
                     icon: "pawprint.fill",
-                    title: "Animal",
+                    title: "State animal",
                     value: state.fauna.stateAnimal,
-                    color: Color(
-                        red: 0.90,
-                        green: 0.52,
-                        blue: 0.18
-                    )
+                    color: Color(red: 0.90, green: 0.52, blue: 0.18)
                 )
+
+                Divider().padding(.leading, 52)
 
                 natureItem(
                     icon: "bird.fill",
-                    title: "Bird",
+                    title: "State bird",
                     value: state.fauna.stateBird,
-                    color: Color(
-                        red: 0.25,
-                        green: 0.55,
-                        blue: 0.85
-                    )
+                    color: Color(red: 0.25, green: 0.55, blue: 0.85)
                 )
             }
+            .padding(.horizontal, 14)
+            .background(
+                Color(red: 0.98, green: 0.97, blue: 0.93),
+                in: RoundedRectangle(cornerRadius: 18, style: .continuous)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    .stroke(olive.opacity(0.14), lineWidth: 1)
+            )
         }
     }
 
@@ -441,71 +427,28 @@ struct StateDetailView: View {
         color: Color
     ) -> some View {
 
-        VStack(alignment: .leading, spacing: 11) {
-            HStack {
-                Image(systemName: icon)
-                    .font(.system(size: 21, weight: .bold))
-                    .foregroundStyle(.white)
-                    .frame(width: 46, height: 46)
-                    .background(
-                        LinearGradient(
-                            colors: [color, color.opacity(0.72)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        in: RoundedRectangle(cornerRadius: 15, style: .continuous)
-                    )
-                    .shadow(color: color.opacity(0.28), radius: 7, y: 4)
+        HStack(spacing: 12) {
+            Image(systemName: icon)
+                .font(.system(size: 17, weight: .bold))
+                .foregroundStyle(color)
+                .frame(width: 36, height: 36)
+                .background(color.opacity(0.12), in: Circle())
 
-                Spacer()
-
-                Circle()
-                    .fill(color.opacity(0.18))
-                    .frame(width: 9, height: 9)
-            }
-
-            VStack(alignment: .leading, spacing: 3) {
-                Text(title.uppercased())
-                    .font(.system(size: 10, weight: .heavy, design: .rounded))
-                    .tracking(1.2)
-                    .foregroundStyle(color)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.system(size: 11, weight: .bold, design: .rounded))
+                    .foregroundStyle(darkBrown.opacity(0.55))
 
                 Text(value)
                     .font(.system(size: 15, weight: .bold, design: .rounded))
                     .foregroundStyle(darkBrown.opacity(0.9))
                     .lineLimit(2)
-                    .minimumScaleFactor(0.78)
             }
+
+            Spacer(minLength: 0)
         }
-        .padding(13)
-        .frame(
-            maxWidth: .infinity,
-            minHeight: 116,
-            alignment: .topLeading
-        )
-        .background(
-            LinearGradient(
-                colors: [Color.white.opacity(0.88), color.opacity(0.11)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            ),
-            in: RoundedRectangle(cornerRadius: 22, style: .continuous)
-        )
-        .overlay(
-            RoundedRectangle(
-                cornerRadius: 22,
-                style: .continuous
-            )
-            .stroke(
-                color.opacity(0.22),
-                lineWidth: 1.4
-            )
-        )
-        .shadow(
-            color: color.opacity(0.12),
-            radius: 10,
-            y: 5
-        )
+        .padding(.vertical, 10)
+        .accessibilityElement(children: .combine)
     }
 
 

@@ -230,12 +230,6 @@ private struct ColoringCanvasInteraction: ViewModifier {
                             onFill(point)
                         }
                 )
-        } else if isZoomed {
-            content.gesture(
-                DragGesture(minimumDistance: 5, coordinateSpace: .local)
-                    .onChanged { value in onPanChanged(value.translation) }
-                    .onEnded { value in onPanEnded(value.translation) }
-            )
         } else if tool == .fill {
             content.gesture(
                 SpatialTapGesture()

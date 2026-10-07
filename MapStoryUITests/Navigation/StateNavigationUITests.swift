@@ -77,6 +77,10 @@ final class StateNavigationUITests: XCTestCase {
             card.waitForExistence(timeout: timeout),
             "State card '\(id)' should exist."
         )
+        XCTAssertTrue(
+            card.isHittable,
+            "State card '\(id)' should be available for interaction."
+        )
 
         return card
     }
@@ -103,11 +107,22 @@ final class StateNavigationUITests: XCTestCase {
         timeout: TimeInterval = 10
     ) {
 
-        let card = waitForStateCard(
-            id: id,
-            timeout: timeout
-        )
+        var card = stateCard(id: id)
 
+        if !card.waitForExistence(timeout: 1) || !card.isHittable {
+            activateSearchField(timeout: timeout)
+            searchField.typeText(stateName)
+            card = stateCard(id: id)
+        }
+
+        XCTAssertTrue(
+            card.waitForExistence(timeout: timeout),
+            "State card '\(id)' should exist after locating it."
+        )
+        XCTAssertTrue(
+            card.isHittable,
+            "State card '\(id)' should be tappable after locating it."
+        )
         card.tap()
 
         XCTAssertTrue(

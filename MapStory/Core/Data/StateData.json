@@ -1,35 +1,10 @@
 [
   {
-    "id": "punjab",
-    "name": "Punjab",
-    "imageName": "pb",
-    "puzzleImageName": "pb",
-    "coloringImageName": "tiger_coloring",
-
-    "tagline": "The Land of Five Rivers",
-
-    "flora": {
-      "stateFlower": "Sword Lily",
-      "stateTree": "Shisham",
-      "majorCrops": [
-        "Wheat",
-        "Rice",
-        "Cotton",
-        "Sugarcane"
-      ]
-    },
-
-    "fauna": {
-      "stateAnimal": "Blackbuck",
-      "stateBird": "Northern Goshawk"
-    }
-  },
-  {
     "id": "andhra-pradesh",
     "name": "Andhra Pradesh",
     "imageName": "ap",
     "puzzleImageName": "ap",
-    "coloringImageName": "andhra_pradesh_coloring",
+    "coloringImageName": "",
     "tagline": "The Essence of Incredible India",
     "flora": {
       "stateFlower": "Jasmine",
@@ -47,11 +22,275 @@
     }
   },
   {
+    "id": "arunachal-pradesh",
+    "name": "Arunachal Pradesh",
+    "imageName": "ar",
+    "puzzleImageName": "ar",
+    "coloringImageName": "",
+    "tagline": "The Land of the Dawn-Lit Mountains",
+    "flora": {
+      "stateFlower": "Foxtail Orchid",
+      "stateTree": "Hollong",
+      "majorCrops": [
+        "Rice",
+        "Maize",
+        "Millet",
+        "Ginger"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Mithun",
+      "stateBird": "Great Hornbill"
+    }
+  },
+  {
+    "id": "assam",
+    "name": "Assam",
+    "imageName": "as",
+    "puzzleImageName": "as",
+    "coloringImageName": "",
+    "tagline": "The Land of the Red River and Blue Hills",
+    "flora": {
+      "stateFlower": "Foxtail Orchid",
+      "stateTree": "Hollong",
+      "majorCrops": [
+        "Tea",
+        "Rice",
+        "Jute",
+        "Sugarcane"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "One-horned Rhinoceros",
+      "stateBird": "White-winged Wood Duck"
+    }
+  },
+  {
+    "id": "bihar",
+    "name": "Bihar",
+    "imageName": "br",
+    "puzzleImageName": "br",
+    "coloringImageName": "",
+    "tagline": "The Land of Ancient Wisdom",
+    "flora": {
+      "stateFlower": "Marigold",
+      "stateTree": "Peepal",
+      "majorCrops": [
+        "Rice",
+        "Wheat",
+        "Maize",
+        "Sugarcane"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Gaur",
+      "stateBird": "House Sparrow"
+    }
+  },
+  {
+    "id": "chhattisgarh",
+    "name": "Chhattisgarh",
+    "imageName": "cg",
+    "puzzleImageName": "cg",
+    "coloringImageName": "",
+    "tagline": "The Rice Bowl of India",
+    "flora": {
+      "stateFlower": "Champa",
+      "stateTree": "Sal",
+      "majorCrops": [
+        "Rice",
+        "Maize",
+        "Wheat",
+        "Sugarcane"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Wild Water Buffalo",
+      "stateBird": "Hill Myna"
+    }
+  },
+  {
+    "id": "goa",
+    "name": "Goa",
+    "imageName": "ga",
+    "puzzleImageName": "ga",
+    "coloringImageName": "",
+    "tagline": "The Pearl of the Arabian Sea",
+    "flora": {
+      "stateFlower": "Plumeria",
+      "stateTree": "Coconut Palm",
+      "majorCrops": [
+        "Rice",
+        "Coconut",
+        "Cashew",
+        "Arecanut"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Gaur",
+      "stateBird": "Flame-throated Bulbul"
+    }
+  },
+  {
+    "id": "gujarat",
+    "name": "Gujarat",
+    "imageName": "gj",
+    "puzzleImageName": "gj",
+    "coloringImageName": "",
+    "tagline": "The Jewel of the West",
+    "flora": {
+      "stateFlower": "Marigold",
+      "stateTree": "Banyan",
+      "majorCrops": [
+        "Cotton",
+        "Groundnut",
+        "Wheat",
+        "Rice"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Asiatic Lion",
+      "stateBird": "Greater Flamingo"
+    }
+  },
+  {
+    "id": "haryana",
+    "name": "Haryana",
+    "imageName": "hr",
+    "puzzleImageName": "hr",
+    "coloringImageName": "",
+    "tagline": "The Land of the Brave and the Bountiful",
+    "flora": {
+      "stateFlower": "Lotus",
+      "stateTree": "Peepal",
+      "majorCrops": [
+        "Wheat",
+        "Rice",
+        "Cotton",
+        "Sugarcane"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Blackbuck",
+      "stateBird": "Black Francolin"
+    }
+  },
+  {
+    "id": "himachal-pradesh",
+    "name": "Himachal Pradesh",
+    "imageName": "hp",
+    "puzzleImageName": "hp",
+    "coloringImageName": "",
+    "tagline": "The Land of Snowy Mountains",
+    "flora": {
+      "stateFlower": "Pink Rhododendron",
+      "stateTree": "Deodar",
+      "majorCrops": [
+        "Apple",
+        "Maize",
+        "Wheat",
+        "Barley"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Snow Leopard",
+      "stateBird": "Western Tragopan"
+    }
+  },
+  {
+    "id": "jharkhand",
+    "name": "Jharkhand",
+    "imageName": "jh",
+    "puzzleImageName": "jh",
+    "coloringImageName": "",
+    "tagline": "The Land of Forests",
+    "flora": {
+      "stateFlower": "Palash",
+      "stateTree": "Sal",
+      "majorCrops": [
+        "Rice",
+        "Maize",
+        "Wheat",
+        "Pulses"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Indian Elephant",
+      "stateBird": "Asian Koel"
+    }
+  },
+  {
+    "id": "karnataka",
+    "name": "Karnataka",
+    "imageName": "ka",
+    "puzzleImageName": "ka",
+    "coloringImageName": "",
+    "tagline": "One State, Many Worlds",
+    "flora": {
+      "stateFlower": "Lotus",
+      "stateTree": "Sandalwood",
+      "majorCrops": [
+        "Coffee",
+        "Rice",
+        "Ragi",
+        "Sugarcane"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Indian Elephant",
+      "stateBird": "Indian Roller"
+    }
+  },
+  {
+    "id": "kerala",
+    "name": "Kerala",
+    "imageName": "kl",
+    "puzzleImageName": "kl",
+    "coloringImageName": "",
+    "tagline": "God's Own Country",
+    "flora": {
+      "stateFlower": "Kanikonna",
+      "stateTree": "Coconut Palm",
+      "majorCrops": [
+        "Coconut",
+        "Rubber",
+        "Rice",
+        "Pepper"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Indian Elephant",
+      "stateBird": "Great Hornbill"
+    }
+  },
+  {
+    "id": "madhya-pradesh",
+    "name": "Madhya Pradesh",
+    "imageName": "mp",
+    "puzzleImageName": "mp",
+    "coloringImageName": "",
+    "tagline": "The Heart of Incredible India",
+    "flora": {
+      "stateFlower": "Palash",
+      "stateTree": "Banyan",
+      "majorCrops": [
+        "Soybean",
+        "Wheat",
+        "Rice",
+        "Gram"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Swamp Deer",
+      "stateBird": "Asian Paradise Flycatcher"
+    }
+  },
+  {
     "id": "maharashtra",
     "name": "Maharashtra",
     "imageName": "mh",
     "puzzleImageName": "mh",
-    "coloringImageName": "maharashtra_coloring",
+    "coloringImageName": "",
     "tagline": "The Great Land of the Marathas",
     "flora": {
       "stateFlower": "Jarul",
@@ -69,25 +308,311 @@
     }
   },
   {
-    "id": "arunachal-pradesh",
-    "name": "Arunachal Pradesh",
-    "imageName": "ar",
-    "puzzleImageName": "ar",
-    "coloringImageName": "arunachal_pradesh_coloring",
-    "tagline": "The Land of the Dawn-Lit Mountains",
+    "id": "manipur",
+    "name": "Manipur",
+    "imageName": "mn",
+    "puzzleImageName": "mn",
+    "coloringImageName": "",
+    "tagline": "The Jewel of India",
     "flora": {
-      "stateFlower": "Foxtail Orchid",
-      "stateTree": "Hollong",
+      "stateFlower": "Siroi Lily",
+      "stateTree": "Unboxing?",
+      "majorCrops": [
+        "Rice",
+        "Maize",
+        "Pulses",
+        "Sugarcane"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Sangai",
+      "stateBird": "Nongin"
+    }
+  },
+  {
+    "id": "meghalaya",
+    "name": "Meghalaya",
+    "imageName": "ml",
+    "puzzleImageName": "ml",
+    "coloringImageName": "",
+    "tagline": "The Abode of Clouds",
+    "flora": {
+      "stateFlower": "Lady's Slipper Orchid",
+      "stateTree": "Gamhar",
+      "majorCrops": [
+        "Rice",
+        "Maize",
+        "Potato",
+        "Pineapple"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Clouded Leopard",
+      "stateBird": "Hill Myna"
+    }
+  },
+  {
+    "id": "mizoram",
+    "name": "Mizoram",
+    "imageName": "mz",
+    "puzzleImageName": "mz",
+    "coloringImageName": "",
+    "tagline": "The Land of the Hill People",
+    "flora": {
+      "stateFlower": "Red Vanda",
+      "stateTree": "Ironwood",
+      "majorCrops": [
+        "Rice",
+        "Maize",
+        "Ginger",
+        "Turmeric"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Serow",
+      "stateBird": "Mrs. Hume's Pheasant"
+    }
+  },
+  {
+    "id": "nagaland",
+    "name": "Nagaland",
+    "imageName": "nl",
+    "puzzleImageName": "nl",
+    "coloringImageName": "",
+    "tagline": "The Land of Festivals",
+    "flora": {
+      "stateFlower": "Rhododendron",
+      "stateTree": "Alder",
       "majorCrops": [
         "Rice",
         "Maize",
         "Millet",
-        "Ginger"
+        "Pineapple"
       ]
     },
     "fauna": {
       "stateAnimal": "Mithun",
-      "stateBird": "Great Hornbill"
+      "stateBird": "Blyth's Tragopan"
+    }
+  },
+  {
+    "id": "odisha",
+    "name": "Odisha",
+    "imageName": "od",
+    "puzzleImageName": "od",
+    "coloringImageName": "",
+    "tagline": "The Soul of India",
+    "flora": {
+      "stateFlower": "Ashoka",
+      "stateTree": "Peepal",
+      "majorCrops": [
+        "Rice",
+        "Pulses",
+        "Groundnut",
+        "Sugarcane"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Sambar",
+      "stateBird": "Indian Roller"
+    }
+  },
+  {
+    "id": "punjab",
+    "name": "Punjab",
+    "imageName": "pb",
+    "puzzleImageName": "pb",
+    "coloringImageName": "tiger_coloring",
+    "tagline": "The Land of Five Rivers",
+    "flora": {
+      "stateFlower": "Sword Lily",
+      "stateTree": "Shisham",
+      "majorCrops": [
+        "Wheat",
+        "Rice",
+        "Cotton",
+        "Sugarcane"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Blackbuck",
+      "stateBird": "Northern Goshawk"
+    }
+  },
+  {
+    "id": "rajasthan",
+    "name": "Rajasthan",
+    "imageName": "rj",
+    "puzzleImageName": "rj",
+    "coloringImageName": "",
+    "tagline": "The Land of Kings",
+    "flora": {
+      "stateFlower": "Rohida",
+      "stateTree": "Khejri",
+      "majorCrops": [
+        "Wheat",
+        "Bajra",
+        "Mustard",
+        "Barley"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Camel",
+      "stateBird": "Great Indian Bustard"
+    }
+  },
+  {
+    "id": "sikkim",
+    "name": "Sikkim",
+    "imageName": "sk",
+    "puzzleImageName": "sk",
+    "coloringImageName": "",
+    "tagline": "The Land of Mystical Mountains",
+    "flora": {
+      "stateFlower": "Noble Orchid",
+      "stateTree": "Rhododendron",
+      "majorCrops": [
+        "Large Cardamom",
+        "Ginger",
+        "Rice",
+        "Maize"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Red Panda",
+      "stateBird": "Blood Pheasant"
+    }
+  },
+  {
+    "id": "tamil-nadu",
+    "name": "Tamil Nadu",
+    "imageName": "tn",
+    "puzzleImageName": "tn",
+    "coloringImageName": "",
+    "tagline": "The Land of Temples and Tradition",
+    "flora": {
+      "stateFlower": "Gloriosa Lily",
+      "stateTree": "Palmyra Palm",
+      "majorCrops": [
+        "Rice",
+        "Sugarcane",
+        "Cotton",
+        "Groundnut"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Nilgiri Tahr",
+      "stateBird": "Emerald Dove"
+    }
+  },
+  {
+    "id": "telangana",
+    "name": "Telangana",
+    "imageName": "tg",
+    "puzzleImageName": "tg",
+    "coloringImageName": "",
+    "tagline": "The Land of Festivals and Heritage",
+    "flora": {
+      "stateFlower": "Tangedu",
+      "stateTree": "Jammi",
+      "majorCrops": [
+        "Rice",
+        "Cotton",
+        "Maize",
+        "Turmeric"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Spotted Deer",
+      "stateBird": "Indian Roller"
+    }
+  },
+  {
+    "id": "tripura",
+    "name": "Tripura",
+    "imageName": "tr",
+    "puzzleImageName": "tr",
+    "coloringImageName": "",
+    "tagline": "The Land of Green Valleys",
+    "flora": {
+      "stateFlower": "Nageswar",
+      "stateTree": "Agar",
+      "majorCrops": [
+        "Rice",
+        "Rubber",
+        "Tea",
+        "Pineapple"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Phayre's Langur",
+      "stateBird": "Green Imperial Pigeon"
+    }
+  },
+  {
+    "id": "uttar-pradesh",
+    "name": "Uttar Pradesh",
+    "imageName": "up",
+    "puzzleImageName": "up",
+    "coloringImageName": "",
+    "tagline": "The Heartland of India",
+    "flora": {
+      "stateFlower": "Palash",
+      "stateTree": "Ashoka",
+      "majorCrops": [
+        "Wheat",
+        "Rice",
+        "Sugarcane",
+        "Potato"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Barasingha",
+      "stateBird": "Sarus Crane"
+    }
+  },
+  {
+    "id": "uttarakhand",
+    "name": "Uttarakhand",
+    "imageName": "uk",
+    "puzzleImageName": "uk",
+    "coloringImageName": "",
+    "tagline": "The Land of Gods",
+    "flora": {
+      "stateFlower": "Brahma Kamal",
+      "stateTree": "Burans",
+      "majorCrops": [
+        "Rice",
+        "Wheat",
+        "Maize",
+        "Mandua"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Alpine Musk Deer",
+      "stateBird": "Himalayan Monal"
+    }
+  },
+  {
+    "id": "west-bengal",
+    "name": "West Bengal",
+    "imageName": "wb",
+    "puzzleImageName": "wb",
+    "coloringImageName": "",
+    "tagline": "The Land of Culture and Heritage",
+    "flora": {
+      "stateFlower": "Shiuli",
+      "stateTree": "Chatim",
+      "majorCrops": [
+        "Rice",
+        "Jute",
+        "Tea",
+        "Potato"
+      ]
+    },
+    "fauna": {
+      "stateAnimal": "Fishing Cat",
+      "stateBird": "White-throated Kingfisher"
     }
   }
 ]
